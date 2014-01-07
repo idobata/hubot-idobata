@@ -2,7 +2,7 @@
   "name": "hubot-idobata",
   "version": "0.0.0",
   "description": "Idobata adapter for GitHub's Hubot",
-  "main": "index.js",
+  "main": "./src/idobata",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
