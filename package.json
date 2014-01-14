@@ -16,6 +16,7 @@
   ],
   "author": "Eiwa System Management",
   "license": "MIT",
+  "private": true,
   "bugs": {
     "url": "https://github.com/esminc/hubot-idobata/issues"
   },
