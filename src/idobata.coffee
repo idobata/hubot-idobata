@@ -29,6 +29,7 @@ class Idobata extends Hubot.Adapter
         process.exit 1
 
       seed = JSON.parse(body)
+      bot  = @robot.brain.userForId(seed.records.user.id, seed.records.user)
 
       pusher = new Pusher(PUSHER_KEY,
         encrypted:    /^https/.test(IDOBATA_URL)
@@ -36,7 +37,8 @@ class Idobata extends Hubot.Adapter
         auth:
           headers: @_http_headers
       )
-      channel = pusher.subscribe seed.records.user.channel_name
+
+      channel = pusher.subscribe(bot.channel_name)
 
       channel.bind 'message_created', (data) =>
         {message} = data
