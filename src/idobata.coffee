@@ -4,11 +4,11 @@ request = require('request')
 Pusher  = require('pusher-client')
 Hubot   = require('hubot')
 
+pkg = require('../package')
+
 IDOBATA_URL = process.env.IDOBATA_URL || 'https://idobata.io/'
 PUSHER_KEY  = process.env.PUSHER_KEY  || '44ffe67af1c7035be764'
-
-# XXX Get channel name form Idobata after login as bot.
-MOCK_CHANNEL_NAME = process.env.CHANNEL_NAME
+AUTH_TOKEN  = process.env.AUTH_TOKEN
 
 class Idobata extends Hubot.Adapter
   send: (envelope, strings...) ->
@@ -19,28 +19,49 @@ class Idobata extends Hubot.Adapter
     @send envelope, strings...
 
   run: ->
-    pusher = new Pusher(PUSHER_KEY,
-      encrypted:    /^https/.test(IDOBATA_URL)
-      authEndpoint: url.resolve(IDOBATA_URL, '/pusher/auth')
-    )
-    channel = pusher.subscribe MOCK_CHANNEL_NAME
+    options =
+      url: url.resolve(IDOBATA_URL, '/api/seed')
+      headers: @_http_headers
 
-    channel.bind 'message_created', (data) =>
-      {message} = data
+    request options, (error, response, body) =>
+      unless response.statusCode == 200
+        console.error "Idobata return status=#{response.statusCode}. Please check your authentication."
+        process.exit 1
 
-      # XXX Ignore own message
+      seed = JSON.parse(body)
 
-      user = @robot.brain.userForId(message.sender_id, name: message.sender_name)
+      pusher = new Pusher(PUSHER_KEY,
+        encrypted:    /^https/.test(IDOBATA_URL)
+        authEndpoint: url.resolve(IDOBATA_URL, '/pusher/auth')
+        auth:
+          headers: @_http_headers
+      )
+      channel = pusher.subscribe seed.records.user.channel_name
 
-      textMessage = new Hubot.TextMessage(user, message.body_plain, message.id)
-      textMessage.data = message
+      channel.bind 'message_created', (data) =>
+        {message} = data
 
-      @receive textMessage
+        # XXX Ignore own message
 
-    @emit 'connected'
+        user = @robot.brain.userForId(message.sender_id, name: message.sender_name)
+
+        textMessage = new Hubot.TextMessage(user, message.body_plain, message.id)
+        textMessage.data = message
+
+        @receive textMessage
+
+      @emit 'connected'
+
+  _http_headers:
+    AUTH_TOKEN:   AUTH_TOKEN
+    'User-Agent': "hubot-idobata / v#{pkg.version}"
 
   _postMessage: (source, room_id) ->
-    request.post(url.resolve(IDOBATA_URL, '/api/messages')).form({message: {room_id, source}})
+    options =
+      url:     url.resolve(IDOBATA_URL, '/api/messages')
+      headers: @_http_headers
+
+    request.post(options).form({message: {room_id, source}})
 
 exports.use = (robot) ->
   new Idobata(robot)
