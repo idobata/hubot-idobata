@@ -1,10 +1,9 @@
-url = require('url')
+Url = require('url')
 
-request = require('request')
+Request = require('request')
 Pusher  = require('pusher-client')
 Hubot   = require('hubot')
-
-pkg = require('../package')
+Package = require('../package')
 
 IDOBATA_URL = process.env.HUBOT_IDOBATA_URL         || 'https://idobata.io/'
 PUSHER_KEY  = process.env.HUBOT_IDOBATA_PUSHER_KEY  || '44ffe67af1c7035be764'
@@ -20,10 +19,10 @@ class Idobata extends Hubot.Adapter
 
   run: ->
     options =
-      url: url.resolve(IDOBATA_URL, '/api/seed')
+      url:     Url.resolve(IDOBATA_URL, '/api/seed')
       headers: @_http_headers
 
-    request options, (error, response, body) =>
+    Request options, (error, response, body) =>
       unless response.statusCode == 200
         console.error "Idobata return status=#{response.statusCode}. Please check your authentication."
         process.exit 1
@@ -33,7 +32,7 @@ class Idobata extends Hubot.Adapter
 
       pusher = new Pusher(PUSHER_KEY,
         encrypted:    /^https/.test(IDOBATA_URL)
-        authEndpoint: url.resolve(IDOBATA_URL, '/pusher/auth')
+        authEndpoint: Url.resolve(IDOBATA_URL, '/pusher/auth')
         auth:
           headers: @_http_headers
       )
@@ -56,14 +55,14 @@ class Idobata extends Hubot.Adapter
 
   _http_headers:
     AUTH_TOKEN:   AUTH_TOKEN
-    'User-Agent': "hubot-idobata / v#{pkg.version}"
+    'User-Agent': "hubot-idobata / v#{Package.version}"
 
   _postMessage: (source, room_id) ->
     options =
-      url:     url.resolve(IDOBATA_URL, '/api/messages')
+      url:     Url.resolve(IDOBATA_URL, '/api/messages')
       headers: @_http_headers
 
-    request.post(options).form({message: {room_id, source}})
+    Request.post(options).form({message: {room_id, source}})
 
 exports.use = (robot) ->
   new Idobata(robot)
