@@ -24,7 +24,7 @@ class Idobata extends Hubot.Adapter
 
     Request options, (error, response, body) =>
       unless response.statusCode == 200
-        console.error "Idobata return status=#{response.statusCode}. Please check your authentication."
+        console.error "Idobata returns (status=\033[31m#{response.statusCode}\033[39m). Please check your authentication."
         process.exit 1
 
       seed = JSON.parse(body)
