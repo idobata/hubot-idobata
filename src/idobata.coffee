@@ -43,7 +43,7 @@ class Idobata extends Hubot.Adapter
       channel.bind 'message_created', (data) =>
         {message} = data
 
-        # XXX Ignore own message
+        return if bot.id == message.sender_id
 
         user = @robot.brain.userForId(message.sender_id, name: message.sender_name)
 
