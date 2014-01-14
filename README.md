@@ -19,9 +19,7 @@ $ npm install --save hubot-idobata
 ```
 
 4. Configure it:
-
 Set the authentication token of bot's account.
-
 ```
 export HUBOT_IDOBATA_AUTH_TOKEN="..."
 ```
