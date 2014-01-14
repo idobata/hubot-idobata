@@ -6,9 +6,9 @@ Hubot   = require('hubot')
 
 pkg = require('../package')
 
-IDOBATA_URL = process.env.IDOBATA_URL || 'https://idobata.io/'
-PUSHER_KEY  = process.env.PUSHER_KEY  || '44ffe67af1c7035be764'
-AUTH_TOKEN  = process.env.AUTH_TOKEN
+IDOBATA_URL = process.env.HUBOT_IDOBATA_URL         || 'https://idobata.io/'
+PUSHER_KEY  = process.env.HUBOT_IDOBATA_PUSHER_KEY  || '44ffe67af1c7035be764'
+AUTH_TOKEN  = process.env.HUBOT_IDOBATA_AUTH_TOKEN
 
 class Idobata extends Hubot.Adapter
   send: (envelope, strings...) ->
