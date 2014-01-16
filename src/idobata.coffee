@@ -5,8 +5,8 @@ Pusher  = require('pusher-client')
 Hubot   = require('hubot')
 Package = require('../package')
 
-IDOBATA_URL = process.env.HUBOT_IDOBATA_URL         || 'https://idobata.io/'
-PUSHER_KEY  = process.env.HUBOT_IDOBATA_PUSHER_KEY  || '44ffe67af1c7035be764'
+IDOBATA_URL = process.env.HUBOT_IDOBATA_URL        || 'https://idobata.io/'
+PUSHER_KEY  = process.env.HUBOT_IDOBATA_PUSHER_KEY || '44ffe67af1c7035be764'
 AUTH_TOKEN  = process.env.HUBOT_IDOBATA_AUTH_TOKEN
 
 class Idobata extends Hubot.Adapter
@@ -54,7 +54,7 @@ class Idobata extends Hubot.Adapter
       @emit 'connected'
 
   _http_headers:
-    AUTH_TOKEN:   AUTH_TOKEN
+    'Auth-Token': AUTH_TOKEN
     'User-Agent': "hubot-idobata / v#{Package.version}"
 
   _postMessage: (source, room_id) ->
