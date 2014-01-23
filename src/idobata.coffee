@@ -14,7 +14,7 @@ class Idobata extends Hubot.Adapter
     @_postMessage string, envelope.message.data.room_id for string in strings
 
   reply: (envelope, strings...) ->
-    strings = strings.map (string) -> "@#{envelope.user.name} #{string}"
+    strings = strings.map (string) -> "@#{envelope.bot.name} #{string}"
     @send envelope, strings...
 
   run: ->
@@ -28,7 +28,7 @@ class Idobata extends Hubot.Adapter
         process.exit 1
 
       seed = JSON.parse(body)
-      bot  = @robot.brain.userForId(seed.records.user.id, seed.records.user)
+      bot  = @robot.brain.userForId(seed.records.bot.id, seed.records.bot)
 
       pusher = new Pusher(PUSHER_KEY,
         encrypted:    /^https/.test(IDOBATA_URL)
