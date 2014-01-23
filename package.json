@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git@github.com:esminc/hubot-idobata.git"
+    "url": "git@github.com:idobata/hubot-idobata.git"
   },
   "keywords": [
     "Idobata",
@@ -18,9 +18,9 @@
   "license": "MIT",
   "private": true,
   "bugs": {
-    "url": "https://github.com/esminc/hubot-idobata/issues"
+    "url": "https://github.com/idobata/hubot-idobata/issues"
   },
-  "homepage": "https://github.com/esminc/hubot-idobata",
+  "homepage": "https://github.com/idobata/hubot-idobata",
   "dependencies": {
     "request": "~> 2.30.0",
     "pusher-client": "~> 0.2.1",
