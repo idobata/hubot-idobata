@@ -14,7 +14,7 @@ class Idobata extends Hubot.Adapter
     @_postMessage string, envelope.message.data.room_id for string in strings
 
   reply: (envelope, strings...) ->
-    strings = strings.map (string) -> "@#{envelope.bot.name} #{string}"
+    strings = strings.map (string) -> "@#{envelope.user.name} #{string}"
     @send envelope, strings...
 
   run: ->
@@ -25,7 +25,8 @@ class Idobata extends Hubot.Adapter
     Request options, (error, response, body) =>
       unless response.statusCode == 200
         console.error "Idobata returns (status=#{response.statusCode}). Please check your authentication."
-        process.exit 1
+
+        @emit 'error', error
 
       seed = JSON.parse(body)
       bot  = @robot.brain.userForId(seed.records.bot.id, seed.records.bot)

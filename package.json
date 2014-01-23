@@ -4,7 +4,7 @@
   "description": "Idobata adapter for GitHub's Hubot",
   "main": "./src/idobata",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha --compilers coffee:coffee-script test"
   },
   "repository": {
     "type": "git",
@@ -25,5 +25,15 @@
     "request": "~> 2.30.0",
     "pusher-client": "~> 0.2.1",
     "hubot": "~> 2.7.1"
+  },
+  "devDependencies": {
+    "coffee-script": "~> 1.6.3",
+    "mocha": "~> 1.17.1",
+    "chai": "~> 1.8.1",
+    "sinon": "~> 1.7.3",
+    "nock": "~> 0.27.1"
+  },
+  "engines": {
+    "node": ">= 0.8"
   }
 }

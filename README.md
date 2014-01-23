@@ -19,10 +19,8 @@ $ npm install --save hubot-idobata
 ```
 
 4. Configure it:
-Set the authentication token of bot's account.
-```
-export HUBOT_IDOBATA_AUTH_TOKEN="..."
-```
+This adapter requires the following environment variable:
+  * `HUBOT_IDOBATA_AUTH_TOKEN`: the authentication token of bot's account.
 
 5. Run your hubot using the [Idobata][] adapter:
 ```
