@@ -5,29 +5,57 @@ Idobata adapter for GitHub's Hubot
 ## Setup
 
 1. Install dependency modules:
-``` sh
-$ npm install --global coffee-script hubot
-```
+  ``` sh
+  $ npm install --global coffee-script hubot
+  ```
 
-2. Create a new hubot if necessary:
-``` sh
-$ hubot --create <path>
-$ cd <path>
-```
+2. Create a new hubot:
+  ``` sh
+  $ hubot --create <path>
+  $ cd <path>
+  ```
 
-3. Install the [Idobata][] adapter:
-``` sh
-$ npm install --save hubot-idobata
-```
+3. Install the [hubot-idobata][]:
+  ``` sh
+  $ npm install --save hubot-idobata
+  ```
 
-4. Configure it:
-This adapter requires the following environment variable:
+4. Create your bot on [Idobata][]:
+
+5. Configure it:
+
+  This adapter requires the following environment variable:
   * `HUBOT_IDOBATA_AUTH_TOKEN`: the authentication token of bot's account.
 
-5. Run your hubot using the [Idobata][] adapter:
-``` sh
-$ ./bin/hubot --adapter idobata
-```
+  This token is came from:
+  ![bot API Token](/bot_api_token.png)
+
+6. Run your hubot using the [hubot-idobata][]:
+  ``` sh
+  $ ./bin/hubot --adapter idobata
+  ```
+
+## Deploying to heroku
+
+1. First, setup your hubot to deploy to heroku:
+  * [Deploying Hubot to Heroku](https://github.com/github/hubot/blob/master/docs/deploying/heroku.md)
+
+2. Add config to heroku:
+  * `HUBOT_IDOBATA_AUTH_TOKEN`
+  ```
+  $ heroku config:set HUBOT_IDOBATA_AUTH_TOKEN=<your bot token>
+  ```
+
+  * `HUBOT_NAME`
+  ```
+  $ heroku config:set HUBOT_NAME=<your bot name>
+  ```
+
+3. Edit `Procfile`:
+
+  ```
+  web: bin/hubot -a idobata
+  ```
 
 ## Test
 
@@ -42,6 +70,7 @@ $ npm test
 
 [Idobata]: https://idobata.io/
 [Hubot]: http://hubot.github.com/
+[hubot-idobata]: https://github.com/idobata/hubot-idobata
 
 ## License
 
