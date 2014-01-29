@@ -30,7 +30,7 @@ describe 'hubot-idobata', ->
         records:
           bot:
             id:           99
-            name:         'hubot'
+            name:         'Hubot'
             icon_url:     'http://www.gravatar.com/avatar/9fef32520aa08836d774873cb8b7df28.png'
             token:        'API TOKEN'
             status:       'online'
@@ -47,7 +47,6 @@ describe 'hubot-idobata', ->
     do Pusher::initialize.restore
 
   describe '#run', (done) ->
-    # TODO Test arguments
     # TODO Test error thrown
 
     beforeEach ->

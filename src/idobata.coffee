@@ -18,18 +18,28 @@ class Idobata extends Hubot.Adapter
     @send envelope, strings...
 
   run: ->
+    unless AUTH_TOKEN
+      @emit 'error', new Error(`'The environment variable \`\033[31mAUTH_TOKEN\033[39m\` is required.'`)
+
     options =
       url:     Url.resolve(IDOBATA_URL, '/api/seed')
       headers: @_http_headers
 
     Request options, (error, response, body) =>
       unless response.statusCode == 200
-        console.error "Idobata returns (status=#{response.statusCode}). Please check your authentication."
+        console.error `'Idobata returns (status=\033[31m' + response.statusCode + '\033[39m). Please check your authentication.'`
 
         @emit 'error', error
 
       seed = JSON.parse(body)
       bot  = @robot.brain.userForId(seed.records.bot.id, seed.records.bot)
+
+      if seed.records.bot.name != @robot.name
+        console.warn """
+          Your bot on Idobata is named as '#{seed.records.bot.name}'.
+          But this hubot is named as '#{@robot.name}'.
+          To respond to mention correctly, it is recommended that #{`'\033[33mHUBOT_NAME='`}#{seed.records.bot.name}#{`'\033[39m'`} is configured.
+        """
 
       pusher = new Pusher(PUSHER_KEY,
         encrypted:    /^https/.test(IDOBATA_URL)
@@ -63,7 +73,7 @@ class Idobata extends Hubot.Adapter
       url:     Url.resolve(IDOBATA_URL, '/api/messages')
       headers: @_http_headers
 
-    Request.post(options).form({message: {room_id, source}})
+    Request.post(options).form message: {room_id, source}
 
 exports.use = (robot) ->
   new Idobata(robot)
