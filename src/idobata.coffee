@@ -7,7 +7,7 @@ Package = require('../package')
 
 IDOBATA_URL = process.env.HUBOT_IDOBATA_URL        || 'https://idobata.io/'
 PUSHER_KEY  = process.env.HUBOT_IDOBATA_PUSHER_KEY || '44ffe67af1c7035be764'
-AUTH_TOKEN  = process.env.HUBOT_IDOBATA_AUTH_TOKEN
+API_TOKEN   = process.env.HUBOT_IDOBATA_API_TOKEN
 
 class Idobata extends Hubot.Adapter
   send: (envelope, strings...) ->
@@ -18,8 +18,8 @@ class Idobata extends Hubot.Adapter
     @send envelope, strings...
 
   run: ->
-    unless AUTH_TOKEN
-      @emit 'error', new Error(`'The environment variable \`\033[31mAUTH_TOKEN\033[39m\` is required.'`)
+    unless API_TOKEN
+      @emit 'error', new Error(`'The environment variable \`\033[31mHUBOT_IDOBATA_API_TOKEN\033[39m\` is required.'`)
 
     options =
       url:     Url.resolve(IDOBATA_URL, '/api/seed')
@@ -27,7 +27,7 @@ class Idobata extends Hubot.Adapter
 
     Request options, (error, response, body) =>
       unless response.statusCode == 200
-        console.error `'Idobata returns (status=\033[31m' + response.statusCode + '\033[39m). Please check your authentication.'`
+        console.error `'Idobata returns (status=' + response.statusCode + '). Please check your \`\033[31mHUBOT_IDOBATA_API_TOKEN\033[39m\`.'`
 
         @emit 'error', error
 
@@ -65,8 +65,8 @@ class Idobata extends Hubot.Adapter
       @emit 'connected'
 
   _http_headers:
-    'Auth-Token': AUTH_TOKEN
-    'User-Agent': "hubot-idobata / v#{Package.version}"
+    'X-API-Token': API_TOKEN
+    'User-Agent':  "hubot-idobata / v#{Package.version}"
 
   _postMessage: (source, room_id) ->
     options =

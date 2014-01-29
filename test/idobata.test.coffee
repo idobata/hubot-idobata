@@ -12,7 +12,7 @@ MockPusher  = require('./mock/pusher')
 MessageData = require('./mock/message')
 
 # XXX Extract or stub
-process.env.HUBOT_IDOBATA_AUTH_TOKEN = 'MY AUTH TOKEN'
+process.env.HUBOT_IDOBATA_API_TOKEN = 'MY API TOKEN'
 
 Adapter = require('../')
 
@@ -23,7 +23,7 @@ describe 'hubot-idobata', ->
 
   beforeEach ->
     nock('https://idobata.io')
-      .matchHeader('Auth-Token', 'MY AUTH TOKEN')
+      .matchHeader('X-API-Token', 'MY API TOKEN')
       .get('/api/seed')
       .reply 200,
         version: 1
@@ -77,7 +77,7 @@ describe 'hubot-idobata', ->
 
       it 'should send message', (done) ->
         nock('https://idobata.io')
-          .matchHeader('Auth-Token', 'MY AUTH TOKEN')
+          .matchHeader('X-API-Token', 'MY API TOKEN')
           .post('/api/messages')
           .reply 201, (uri, body) ->
             request = querystring.parse(body)
@@ -98,7 +98,7 @@ describe 'hubot-idobata', ->
 
       it 'should reply mesasge to sender', (done) ->
         nock('https://idobata.io')
-          .matchHeader('Auth-Token', 'MY AUTH TOKEN')
+          .matchHeader('X-API-Token', 'MY API TOKEN')
           .post('/api/messages')
           .reply 201, (uri, body) ->
             request = querystring.parse(body)

@@ -25,7 +25,7 @@ Idobata adapter for GitHub's Hubot
 5. Configure it:
 
   This adapter requires the following environment variable:
-  * `HUBOT_IDOBATA_AUTH_TOKEN`: the authentication token of bot's account.
+  * `HUBOT_IDOBATA_API_TOKEN`: the API token of bot's account.
 
   This token is came from:
   ![bot API Token](/bot_api_token.png)
@@ -41,9 +41,9 @@ Idobata adapter for GitHub's Hubot
   * [Deploying Hubot to Heroku](https://github.com/github/hubot/blob/master/docs/deploying/heroku.md)
 
 2. Add config to heroku:
-  * `HUBOT_IDOBATA_AUTH_TOKEN`
+  * `HUBOT_IDOBATA_API_TOKEN`
   ```
-  $ heroku config:set HUBOT_IDOBATA_AUTH_TOKEN=<your bot token>
+  $ heroku config:set HUBOT_IDOBATA_API_TOKEN=<your bot api token>
   ```
 
   * `HUBOT_NAME`
