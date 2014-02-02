@@ -72,8 +72,10 @@ class Idobata extends Hubot.Adapter
     options =
       url:     Url.resolve(IDOBATA_URL, '/api/messages')
       headers: @_http_headers
+      form:
+        message: {room_id, source}
 
-    Request.post(options).form message: {room_id, source}
+    Request.post(options)
 
 exports.use = (robot) ->
   new Idobata(robot)
