@@ -28,7 +28,7 @@ Idobata adapter for GitHub's Hubot
   * `HUBOT_IDOBATA_API_TOKEN`: the API token of bot's account.
 
   This token is came from:
-  ![bot API Token](/bot_api_token.png)
+  ![bot API Token](https://raw.github.com/idobata/hubot-idobata/master/bot_api_token.png)
 
 6. Run your hubot using the [hubot-idobata][]:
   ``` sh
