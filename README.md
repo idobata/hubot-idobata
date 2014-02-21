@@ -59,7 +59,7 @@ Idobata adapter for GitHub's Hubot
   web: bin/hubot -a idobata
   ```
 
-## Developemnt
+## Development
 
 ### Install
 
