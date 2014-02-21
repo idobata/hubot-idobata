@@ -59,7 +59,26 @@ Idobata adapter for GitHub's Hubot
   web: bin/hubot -a idobata
   ```
 
-## Test
+## Developemnt
+
+### Install
+
+To customize hubot-idobata, it is recommended to work in your bot.<br>
+After clone, you can install it from your local path.
+
+``` sh
+$ git clone https://github.com/idobata/hubot-idobata.git
+$ cd /path/to/your/pretty/bot
+$ npm install /path/to/hubot-idobata
+```
+
+You need to re-install it every time you edit `/path/to/hubot-idobata/*`.
+
+**Caution**
+If you clone hubot-idoabta to under `node_modules/`, hubot *couldn't respond* your message.
+(see: [idobata/hubot-idobata#1](https://github.com/idobata/hubot-idobata/issues/1))
+
+### Test
 
 ``` sh
 $ npm test
