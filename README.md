@@ -75,7 +75,7 @@ $ npm install /path/to/hubot-idobata
 You need to re-install it every time you edit `/path/to/hubot-idobata/*`.
 
 **Caution**
-If you clone hubot-idoabta to under `node_modules/`, hubot *couldn't respond* your message.<br>
+If you clone hubot-idobata to under `node_modules/`, hubot *couldn't respond* your message.<br>
 (see: [idobata/hubot-idobata#1](https://github.com/idobata/hubot-idobata/issues/1))
 
 ### Test
