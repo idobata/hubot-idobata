@@ -1,15 +1,19 @@
+{Adapter, TextMessage} = require("../../hubot")
+
 Url = require('url')
 
 Request = require('request')
 Pusher  = require('pusher-client')
-Hubot   = require('hubot')
 Package = require('../package')
 
 IDOBATA_URL = process.env.HUBOT_IDOBATA_URL        || 'https://idobata.io/'
 PUSHER_KEY  = process.env.HUBOT_IDOBATA_PUSHER_KEY || '44ffe67af1c7035be764'
 API_TOKEN   = process.env.HUBOT_IDOBATA_API_TOKEN
 
-class Idobata extends Hubot.Adapter
+class Idobata extends Adapter
+  constructor: (robot) ->
+    super robot
+
   send: (envelope, strings...) ->
     @_postMessage string, envelope.message.data.room_id for string in strings
 
@@ -57,7 +61,7 @@ class Idobata extends Hubot.Adapter
 
         user = @robot.brain.userForId(message.sender_id, name: message.sender_name)
 
-        textMessage = new Hubot.TextMessage(user, message.body_plain, message.id)
+        textMessage = new TextMessage(user, message.body_plain, message.id)
         textMessage.data = message
 
         @receive textMessage
