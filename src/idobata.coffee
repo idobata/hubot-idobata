@@ -11,7 +11,12 @@ API_TOKEN   = process.env.HUBOT_IDOBATA_API_TOKEN
 
 class Idobata extends Hubot.Adapter
   send: (envelope, strings...) ->
-    @_postMessage string, envelope.message.data.room_id for string in strings
+    room_id = null
+    if envelope.room
+      room_id = envelope.room
+    else
+      room_id = envelope.message.data.room_id
+    @_postMessage string, room_id for string in strings
 
   reply: (envelope, strings...) ->
     strings = strings.map (string) -> "@#{envelope.user.name} #{string}"
