@@ -1,4 +1,5 @@
-Url = require('url')
+Url  = require('url')
+Util = require('util')
 
 Request = require('request')
 Pusher  = require('pusher-client')
@@ -11,11 +12,17 @@ API_TOKEN   = process.env.HUBOT_IDOBATA_API_TOKEN
 
 class Idobata extends Hubot.Adapter
   send: (envelope, strings...) ->
-    room_id = null
-    if envelope.room
-      room_id = envelope.room
+    {room, message} = envelope
+
+    room_id = if message
+      # The paylaod from Idobata has `room_id` the following path.
+      message.data.room_id
+    else if room
+      # `Robot#messageRoom` call `send` with `{room: room_id}`.
+      room
     else
-      room_id = envelope.message.data.room_id
+      throw "`envelope` has no room_id: #{Util.inspect(envelope)}"
+
     @_postMessage string, room_id for string in strings
 
   reply: (envelope, strings...) ->

@@ -110,3 +110,19 @@ describe 'hubot-idobata', ->
             do done
 
         pusher.channels['presence-guy_99'][0].trigger 'message_created', MessageData
+
+    describe '#send', ->
+      it 'should respond with Robot#messageRoom', (done) ->
+        nock('https://idobata.io')
+          .matchHeader('X-API-Token', 'MY API TOKEN')
+          .post('/api/messages')
+          .reply 201, (uri, body) ->
+            request = querystring.parse(body)
+
+            expect(request).to.deep.equal
+              'message[room_id]': '42'
+              'message[source]':  'hi'
+
+            do done
+
+        robot.messageRoom('42', 'hi')
