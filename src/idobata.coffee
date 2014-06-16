@@ -15,7 +15,7 @@ class Idobata extends Hubot.Adapter
     {room, message} = envelope
 
     room_id = if message
-      # The paylaod from Idobata has `room_id` the following path.
+      # The payload from Idobata has `room_id` the following path.
       message.data.room_id
     else if room
       # `Robot#messageRoom` call `send` with `{room: room_id}`.
