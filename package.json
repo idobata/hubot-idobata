@@ -1,6 +1,6 @@
 {
   "name": "hubot-idobata",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Idobata adapter for GitHub's Hubot",
   "main": "./src/idobata",
   "scripts": {
