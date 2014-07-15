@@ -126,3 +126,12 @@ describe 'hubot-idobata', ->
             do done
 
         robot.messageRoom('42', 'hi')
+
+    context 'when connection is disconnected', ->
+      beforeEach ->
+        adapter._reconnectInterval = 10
+
+        do pusher.disconnect
+
+      it 'should reconnect automatically', (done) ->
+        pusher.connection.bind 'connected', done
