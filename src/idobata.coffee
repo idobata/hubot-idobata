@@ -74,6 +74,12 @@ class Idobata extends Hubot.Adapter
 
         @receive textMessage
 
+      pusher.connection.bind 'disconnected', =>
+        # When `pusher.connect` is failed, `disconnected` event is fired. So `setInterval` is not needed.
+        setTimeout ->
+          do pusher.connect
+        , @_reconnectInterval
+
       @emit 'connected'
 
   _http_headers:
@@ -88,6 +94,8 @@ class Idobata extends Hubot.Adapter
         message: {room_id, source}
 
     Request.post(options)
+
+  _reconnectInterval: 5 * 1000 # 5s
 
 exports.use = (robot) ->
   new Idobata(robot)

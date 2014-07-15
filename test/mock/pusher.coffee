@@ -4,6 +4,8 @@ class MockPusher
   constructor: (@apiKey, @options) ->
     @channels = {}
 
+    @connection = new MockConnection()
+
   subscribe: (channelName) ->
     @channels[channelName] ||= []
 
@@ -20,5 +22,15 @@ class MockPusher
     @channels[channelName].push channel
 
     channel
+
+  connect: ->
+    @connection.emit 'connected'
+
+  disconnect: ->
+    @connection.emit 'disconnected'
+
+class MockConnection extends EventEmitter
+  bind:   EventEmitter::addListener
+  unbind: EventEmitter::removeListener
 
 module.exports = MockPusher
