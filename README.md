@@ -37,6 +37,25 @@ Idobata adapter for GitHub's Hubot
   $ ./bin/hubot --adapter idobata
   ```
 
+## Adapter specified API
+
+### Send message as HTML
+
+You can `Adapter#sendHTML` instead of `Robot#send` to create message as HTML.
+
+``` coffee
+module.exports = (robot) ->
+  robot.respond /PING$/i, (msg) ->
+    # This API creates the palin text message.
+    # msg.send "PONG"
+
+    adapter  = msg.robot.adapter
+    envelope = msg.envelope
+
+    # This API creates the HTML message.
+    adapter.sendHTML envelope, '<h1>hi</hi>'
+```
+
 ## Deploying to heroku
 
 1. First, setup your hubot to deploy to heroku:

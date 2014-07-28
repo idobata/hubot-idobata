@@ -12,18 +12,7 @@ API_TOKEN   = process.env.HUBOT_IDOBATA_API_TOKEN
 
 class Idobata extends Hubot.Adapter
   send: (envelope, strings...) ->
-    {room, message} = envelope
-
-    room_id = if message
-      # The payload from Idobata has `room_id` the following path.
-      message.data.room_id
-    else if room
-      # `Robot#messageRoom` call `send` with `{room: room_id}`.
-      room
-    else
-      throw "`envelope` has no room_id: #{Util.inspect(envelope)}"
-
-    @_postMessage string, room_id for string in strings
+    @_postMessage {source: string, room_id: @_extractRoomId(envelope)} for string in strings
 
   reply: (envelope, strings...) ->
     strings = strings.map (string) -> "@#{envelope.user.name} #{string}"
@@ -82,18 +71,36 @@ class Idobata extends Hubot.Adapter
 
       @emit 'connected'
 
-  _http_headers:
-    'X-API-Token': API_TOKEN
-    'User-Agent':  "hubot-idobata / v#{Package.version}"
+  sendHTML: (envelope, htmls...) ->
+    for html in htmls
+      @_postMessage
+        source:  html,
+        room_id: @_extractRoomId(envelope),
+        format:  'html'
 
-  _postMessage: (source, room_id) ->
+  _extractRoomId: (envelope) ->
+    {room, message} = envelope
+
+    if message
+      # The payload from Idobata has `room_id` the following path.
+      message.data.room_id
+    else if room
+      # `Robot#messageRoom` call `send` with `{room: room_id}`.
+      room
+    else
+      throw "`envelope` has no room_id: #{Util.inspect(envelope)}"
+
+  _postMessage: (message) ->
     options =
       url:     Url.resolve(IDOBATA_URL, '/api/messages')
       headers: @_http_headers
-      form:
-        message: {room_id, source}
+      form:    {message}
 
     Request.post(options)
+
+  _http_headers:
+    'X-API-Token': API_TOKEN
+    'User-Agent':  "hubot-idobata / v#{Package.version}"
 
   _reconnectInterval: 5 * 1000 # 5s
 

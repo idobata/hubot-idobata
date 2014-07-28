@@ -126,6 +126,29 @@ describe 'hubot-idobata', ->
 
         pusher.channels['presence-guy_99'][0].trigger 'message_created', MessageData
 
+    describe '#sendHTML', ->
+      beforeEach ->
+        robot.hear /(.*)/, (msg) ->
+          {robot: {adapter}, envelope} = msg
+
+          adapter.sendHTML envelope, '<h1>hi</h1>'
+
+      it 'should send message with HTML format', (done) ->
+        nock('https://idobata.io')
+          .matchHeader('X-API-Token', 'MY API TOKEN')
+          .post('/api/messages')
+          .reply 201, (uri, body) ->
+            request = querystring.parse(body)
+
+            expect(request).to.deep.equal
+              'message[room_id]': '143'
+              'message[source]':  '<h1>hi</h1>'
+              'message[format]':  'html'
+
+            do done
+
+        pusher.channels['presence-guy_99'][0].trigger 'message_created', MessageData
+
     context 'when connection is disconnected', ->
       beforeEach ->
         adapter._reconnectInterval = 10
