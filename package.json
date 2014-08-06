@@ -21,12 +21,12 @@
   },
   "homepage": "https://github.com/idobata/hubot-idobata",
   "dependencies": {
-    "request": "~> 2.34",
+    "request": "~> 2.39",
     "pusher-client": "~> 0.2.1"
   },
   "devDependencies": {
     "coffee-script": "~> 1.7.1",
-    "mocha": "~> 1.20.1",
+    "mocha": "~> 1.21.1",
     "chai": "~> 1.9.0",
     "sinon": "~> 1.10.3",
     "nock": "~> 0.27",
