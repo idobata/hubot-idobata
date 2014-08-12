@@ -41,7 +41,7 @@ Idobata adapter for GitHub's Hubot
 
 ### Send message as HTML
 
-You can `Adapter#sendHTML` instead of `Robot#send` to create message as HTML.
+You can use `Adapter#sendHTML` instead of `Robot#send` to create message as HTML.
 
 ``` coffee
 module.exports = (robot) ->
@@ -53,7 +53,7 @@ module.exports = (robot) ->
     envelope = msg.envelope
 
     # This API creates the HTML message.
-    adapter.sendHTML envelope, '<h1>hi</hi>'
+    adapter.sendHTML envelope, '<h1>PONG</hi>'
 ```
 
 ## Deploying to heroku
