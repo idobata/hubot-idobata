@@ -33,7 +33,7 @@ class Idobata extends Hubot.Adapter
         @emit 'error', error
 
       seed = JSON.parse(body)
-      bot  = @robot.brain.userForId(seed.records.bot.id, seed.records.bot)
+      bot  = @robot.brain.userForId("bot:#{seed.records.bot.id}", seed.records.bot)
 
       if seed.records.bot.name != @robot.name
         console.warn """
@@ -54,9 +54,11 @@ class Idobata extends Hubot.Adapter
       channel.bind 'message_created', (data) =>
         {message} = data
 
-        return if bot.id == message.sender_id
+        identifier = "#{message.sender_type.toLowerCase()}:#{message.sender_id}"
 
-        user = @robot.brain.userForId(message.sender_id, name: message.sender_name)
+        user = @robot.brain.userForId(identifier, name: message.sender_name)
+
+        return if "bot:#{bot.id}" == identifier
 
         textMessage = new Hubot.TextMessage(user, message.body_plain, message.id)
         textMessage.data = message
