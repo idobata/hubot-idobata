@@ -34,15 +34,15 @@ class Idobata extends Hubot.Adapter
 
       seed = JSON.parse(body)
       _bot = seed.records.bot
-      bot  = @robot.brain.userForId("bot:#{seed.records.bot.id}", seed.records.bot)
+      bot  = @robot.brain.userForId("bot:#{_bot.id}", _bot)
 
       Util._extend bot, _bot
 
-      if seed.records.bot.name != @robot.name
+      if bot.name != @robot.name
         console.warn """
-          Your bot on Idobata is named as '#{seed.records.bot.name}'.
+          Your bot on Idobata is named as '#{bot.name}'.
           But this hubot is named as '#{@robot.name}'.
-          To respond to mention correctly, it is recommended that #{`'\033[33mHUBOT_NAME='`}#{seed.records.bot.name}#{`'\033[39m'`} is configured.
+          To respond to mention correctly, it is recommended that #{`'\033[33mHUBOT_NAME='`}#{bot.name}#{`'\033[39m'`} is configured.
         """
 
       pusher = new Pusher(PUSHER_KEY,
