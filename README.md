@@ -66,14 +66,12 @@ module.exports = (robot) ->
   ```
   $ heroku config:set HUBOT_IDOBATA_API_TOKEN=<your bot api token>
   ```
-
   * `HUBOT_NAME`
   ```
   $ heroku config:set HUBOT_NAME=<your bot name>
   ```
 
 3. Edit `Procfile`:
-
   ```
   web: bin/hubot -a idobata
   ```
