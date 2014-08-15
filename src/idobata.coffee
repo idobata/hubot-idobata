@@ -33,13 +33,16 @@ class Idobata extends Hubot.Adapter
         @emit 'error', error
 
       seed = JSON.parse(body)
-      bot  = @robot.brain.userForId(seed.records.bot.id, seed.records.bot)
+      _bot = seed.records.bot
+      bot  = @robot.brain.userForId("bot:#{_bot.id}", _bot)
 
-      if seed.records.bot.name != @robot.name
+      Util._extend bot, _bot
+
+      if bot.name != @robot.name
         console.warn """
-          Your bot on Idobata is named as '#{seed.records.bot.name}'.
+          Your bot on Idobata is named as '#{bot.name}'.
           But this hubot is named as '#{@robot.name}'.
-          To respond to mention correctly, it is recommended that #{`'\033[33mHUBOT_NAME='`}#{seed.records.bot.name}#{`'\033[39m'`} is configured.
+          To respond to mention correctly, it is recommended that #{`'\033[33mHUBOT_NAME='`}#{bot.name}#{`'\033[39m'`} is configured.
         """
 
       pusher = new Pusher(PUSHER_KEY,
@@ -51,12 +54,14 @@ class Idobata extends Hubot.Adapter
 
       channel = pusher.subscribe(bot.channel_name)
 
-      channel.bind 'message_created', (data) =>
-        {message} = data
+      channel.bind 'message_created', ({message}) =>
+        identifier = "#{message.sender_type.toLowerCase()}:#{message.sender_id}"
+        _user      = {name: message.sender_name}
+        user       = @robot.brain.userForId(identifier, _user)
 
-        return if bot.id == message.sender_id
+        Util._extend user, _user
 
-        user = @robot.brain.userForId(message.sender_id, name: message.sender_name)
+        return if "bot:#{bot.id}" == identifier
 
         textMessage = new Hubot.TextMessage(user, message.body_plain, message.id)
         textMessage.data = message

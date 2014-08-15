@@ -149,6 +149,26 @@ describe 'hubot-idobata', ->
 
         pusher.channels['presence-guy_99'][0].trigger 'message_created', MessageData
 
+    describe 'User data', ->
+      it 'should updated in automatically', ->
+        expect(robot.brain.userForName('hi')).to.be.null
+
+        pusher.channels['presence-guy_99'][0].trigger 'message_created',
+          message:
+            sender_id:   43
+            sender_type: 'User'
+            sender_name: 'hi'
+
+        expect(robot.brain.userForId('user:43').name).to.equal('hi')
+
+        pusher.channels['presence-guy_99'][0].trigger 'message_created',
+          message:
+            sender_id:   43
+            sender_type: 'User'
+            sender_name: 'hihi' # name is updated
+
+        expect(robot.brain.userForId('user:43').name).to.equal('hihi')
+
     context 'when connection is disconnected', ->
       beforeEach ->
         adapter._reconnectInterval = 10
