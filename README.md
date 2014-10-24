@@ -8,13 +8,14 @@ Idobata adapter for GitHub's Hubot
 
 1. Install dependency modules:
   ``` sh
-  $ npm install --global coffee-script hubot
+  $ npm install --global coffee-script hubot generator-hubot
   ```
 
 2. Create a new hubot:
   ``` sh
-  $ hubot --create <path>
+  $ mkdir <path>
   $ cd <path>
+  $ yo hubot
   ```
 
 3. Install the [hubot-idobata][]:
