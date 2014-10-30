@@ -1,8 +1,13 @@
 language: node_js
+
 node_js:
   - '0.8'
   - '0.10'
   - '0.11'
+
+before_install:
+  - npm install -g npm
+
 notifications:
   webhooks:
     - https://idobata.io/hook/6a98db40-ac68-45ec-a1b4-d8dd5851c2e3
