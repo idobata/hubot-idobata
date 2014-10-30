@@ -1,7 +1,6 @@
 querystring = require('querystring')
 
-chai   = require('chai')
-expect = chai.expect
+assert = require('power-assert')
 sinon  = require('sinon')
 nock   = require('nock')
 
@@ -57,9 +56,7 @@ describe 'hubot-idobata', ->
 
     it 'should subscribe own channel', (done) ->
       adapter.on 'connected', ->
-        expect(pusher.channels)
-          .to.have.property('presence-guy_99')
-          .with.length(1)
+        assert pusher.channels['presence-guy_99'].length == 1
 
         do done
 
@@ -82,9 +79,8 @@ describe 'hubot-idobata', ->
           .reply 201, (uri, body) ->
             request = querystring.parse(body)
 
-            expect(request).to.deep.equal
-              'message[room_id]': '143'
-              'message[source]':  'hi'
+            assert request['message[room_id]'] == '143'
+            assert request['message[source]']  == 'hi'
 
             do done
 
@@ -97,9 +93,8 @@ describe 'hubot-idobata', ->
           .reply 201, (uri, body) ->
             request = querystring.parse(body)
 
-            expect(request).to.deep.equal
-              'message[room_id]': '42'
-              'message[source]':  'hi'
+            assert request['message[room_id]'] == '42'
+            assert request['message[source]']  == 'hi'
 
             do done
 
@@ -118,9 +113,8 @@ describe 'hubot-idobata', ->
           .reply 201, (uri, body) ->
             request = querystring.parse(body)
 
-            expect(request).to.deep.equal
-              'message[room_id]': '143'
-              'message[source]':  '@homuhomu hi'
+            assert request['message[room_id]'] == '143'
+            assert request['message[source]']  == '@homuhomu hi'
 
             do done
 
@@ -140,10 +134,9 @@ describe 'hubot-idobata', ->
           .reply 201, (uri, body) ->
             request = querystring.parse(body)
 
-            expect(request).to.deep.equal
-              'message[room_id]': '143'
-              'message[source]':  '<h1>hi</h1>'
-              'message[format]':  'html'
+            assert request['message[room_id]'] == '143'
+            assert request['message[source]']  == '<h1>hi</h1>'
+            assert request['message[format]']  == 'html'
 
             do done
 
@@ -151,7 +144,7 @@ describe 'hubot-idobata', ->
 
     describe 'User data', ->
       it 'should updated in automatically', ->
-        expect(robot.brain.userForName('hi')).to.be.null
+        assert robot.brain.userForName('hi') == null
 
         pusher.channels['presence-guy_99'][0].trigger 'message_created',
           message:
@@ -159,7 +152,7 @@ describe 'hubot-idobata', ->
             sender_type: 'User'
             sender_name: 'hi'
 
-        expect(robot.brain.userForId('user:43').name).to.equal('hi')
+        assert robot.brain.userForId('user:43').name == 'hi'
 
         pusher.channels['presence-guy_99'][0].trigger 'message_created',
           message:
@@ -167,7 +160,7 @@ describe 'hubot-idobata', ->
             sender_type: 'User'
             sender_name: 'hihi' # name is updated
 
-        expect(robot.brain.userForId('user:43').name).to.equal('hihi')
+        assert robot.brain.userForId('user:43').name == 'hihi'
 
     context 'when connection is disconnected', ->
       beforeEach ->

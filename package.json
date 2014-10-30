@@ -4,7 +4,7 @@
   "description": "Idobata adapter for GitHub's Hubot",
   "main": "./src/idobata",
   "scripts": {
-    "test": "mocha --compilers coffee:coffee-script/register test"
+    "test": "mocha --require espower-coffee/guess --compilers coffee:coffee-script/register test"
   },
   "repository": {
     "type": "git",
@@ -30,9 +30,15 @@
     "chai": "~> 1.9.0",
     "sinon": "~> 1.10.3",
     "nock": "~> 0.27",
-    "hubot": ">= 2.7"
+    "hubot": ">= 2.7",
+    "power-assert": "~> 0.9.1",
+    "espower-coffee": "~> 0.9.1"
+  },
+  "directories": {
+    "test": "test/"
   },
   "engines": {
-    "node": ">= 0.8"
+    "node": ">= 0.8",
+    "npm": ">= 1.2.8000"
   }
 }
