@@ -6,9 +6,9 @@ Idobata adapter for GitHub's Hubot
 
 ## Setup
 
-1. Install dependency modules:
+1. Install [yeoman](http://yeoman.io/) generator for hubot:
   ``` sh
-  $ npm install --global coffee-script hubot generator-hubot
+  $ npm install --global generator-hubot
   ```
 
 2. Create a new hubot:
@@ -18,25 +18,24 @@ Idobata adapter for GitHub's Hubot
   $ yo hubot
   ```
 
-3. Install the [hubot-idobata][]:
-  ``` sh
-  $ npm install --save hubot-idobata
+  When generator ask you:
+  ```
+  ? Bot adapter: (campfire)
   ```
 
-4. Create your bot on [Idobata][]:
+  Please type `idobata`.
 
-5. Configure it:
+  Then generator creates hubot project using `hubot-idobata`.
+
+3. Create your bot on [Idobata][]:
+
+4. Configure it:
 
   This adapter requires the following environment variable:
   * `HUBOT_IDOBATA_API_TOKEN`: the API token of bot's account.
 
   This token is came from:
   ![bot API Token](https://raw.github.com/idobata/hubot-idobata/master/bot_api_token.png)
-
-6. Run your hubot using the [hubot-idobata][]:
-  ``` sh
-  $ ./bin/hubot --adapter idobata
-  ```
 
 ## Adapter specified API
 
