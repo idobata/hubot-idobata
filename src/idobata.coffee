@@ -54,7 +54,7 @@ class Idobata extends Hubot.Adapter
 
       channel = pusher.subscribe(bot.channel_name)
 
-      channel.bind 'message_created', ({message}) =>
+      channel.bind 'message:created', ({message}) =>
         identifier = "#{message.sender_type.toLowerCase()}:#{message.sender_id}"
         _user      = {name: message.sender_name}
         user       = @robot.brain.userForId(identifier, _user)
