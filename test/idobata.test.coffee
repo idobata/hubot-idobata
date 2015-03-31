@@ -84,7 +84,7 @@ describe 'hubot-idobata', ->
 
             do done
 
-        pusher.channels['presence-guy_99'][0].trigger 'message_created', MessageData
+        pusher.channels['presence-guy_99'][0].trigger 'message:created', MessageData
 
       it 'should respond with Robot#messageRoom', (done) ->
         nock('https://idobata.io')
@@ -118,7 +118,7 @@ describe 'hubot-idobata', ->
 
             do done
 
-        pusher.channels['presence-guy_99'][0].trigger 'message_created', MessageData
+        pusher.channels['presence-guy_99'][0].trigger 'message:created', MessageData
 
     describe '#sendHTML', ->
       beforeEach ->
@@ -140,13 +140,13 @@ describe 'hubot-idobata', ->
 
             do done
 
-        pusher.channels['presence-guy_99'][0].trigger 'message_created', MessageData
+        pusher.channels['presence-guy_99'][0].trigger 'message:created', MessageData
 
     describe 'User data', ->
       it 'should updated in automatically', ->
         assert robot.brain.userForName('hi') == null
 
-        pusher.channels['presence-guy_99'][0].trigger 'message_created',
+        pusher.channels['presence-guy_99'][0].trigger 'message:created',
           message:
             sender_id:   43
             sender_type: 'User'
@@ -154,7 +154,7 @@ describe 'hubot-idobata', ->
 
         assert robot.brain.userForId('user:43').name == 'hi'
 
-        pusher.channels['presence-guy_99'][0].trigger 'message_created',
+        pusher.channels['presence-guy_99'][0].trigger 'message:created',
           message:
             sender_id:   43
             sender_type: 'User'
