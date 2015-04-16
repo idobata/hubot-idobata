@@ -25,14 +25,14 @@
     "pusher-client": "~> 0.2.1"
   },
   "devDependencies": {
-    "coffee-script": "~> 1.7.1",
-    "mocha": "~> 1.21.1",
-    "chai": "~> 1.9.0",
-    "sinon": "~> 1.10.3",
-    "nock": "~> 0.27",
+    "coffee-script": "~> 1.9.2",
+    "mocha": "~> 2.2.4",
+    "chai": "~> 2.2.0",
+    "sinon": "~> 1.14.1",
+    "nock": "~> 1.6.0",
     "hubot": ">= 2.7",
-    "power-assert": "~> 0.9.1",
-    "espower-coffee": "~> 0.9.1"
+    "power-assert": "~> 0.10.2",
+    "espower-coffee": "~> 0.10.0"
   },
   "directories": {
     "test": "test/"
