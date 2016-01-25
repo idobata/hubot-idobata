@@ -1,3 +1,6 @@
+# XXX Extract or stub
+process.env.HUBOT_IDOBATA_API_TOKEN = 'MY API TOKEN'
+
 querystring = require('querystring')
 
 assert = require('power-assert')
@@ -9,9 +12,6 @@ Pusher = require('pusher-client')
 MockRobot   = require('./mock/robot')
 MockPusher  = require('./mock/pusher')
 MessageData = require('./mock/message')
-
-# XXX Extract or stub
-process.env.HUBOT_IDOBATA_API_TOKEN = 'MY API TOKEN'
 
 Adapter = require('../')
 
@@ -38,7 +38,7 @@ describe 'hubot-idobata', ->
     sinon.stub Pusher.prototype, 'initialize', ->
       pusher = new MockPusher(arguments...)
 
-    robot   = new MockRobot(Adapter)
+    robot   = new MockRobot
     adapter = robot.adapter
 
   afterEach ->
