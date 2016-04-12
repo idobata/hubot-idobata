@@ -1,8 +1,7 @@
 module.exports =
   message:
     id:              1535,
-    body:            '<div>hi</div>',
-    body_plain:      'hi',
+    body:            '<div>hi &ne; hoi</div>',
     image_urls:      [],
     multiline:       false,
     mentions:        [],

@@ -1,10 +1,12 @@
 Url  = require('url')
 Util = require('util')
 
-Request = require('request')
-Pusher  = require('pusher-client')
-Hubot   = require('hubot')
-Package = require('../package')
+Request   = require('request')
+Pusher    = require('pusher-client')
+Hubot     = require('hubot')
+HTMLStrip = require('htmlstrip-native')
+HE        = require('he')
+Package   = require('../package')
 
 IDOBATA_URL = process.env.HUBOT_IDOBATA_URL        || 'https://idobata.io/'
 PUSHER_KEY  = process.env.HUBOT_IDOBATA_PUSHER_KEY || '44ffe67af1c7035be764'
@@ -63,7 +65,9 @@ class Idobata extends Hubot.Adapter
 
         return if "bot:#{bot.id}" == identifier
 
-        textMessage = new Hubot.TextMessage(user, message.body_plain, message.id)
+        stripOptions = {compact_whitespace: true, include_attributes: {alt: true}}
+        bodyPlain = HE.decode(HTMLStrip.html_strip(message.body || '', stripOptions)).trimRight()
+        textMessage = new Hubot.TextMessage(user, bodyPlain, message.id)
         textMessage.data = message
 
         @receive textMessage
