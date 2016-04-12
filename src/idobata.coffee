@@ -6,6 +6,8 @@ Pusher  = require('pusher-client')
 Hubot   = require('hubot')
 Package = require('../package')
 
+striptags = require('striptags')
+
 IDOBATA_URL = process.env.HUBOT_IDOBATA_URL        || 'https://idobata.io/'
 PUSHER_KEY  = process.env.HUBOT_IDOBATA_PUSHER_KEY || '44ffe67af1c7035be764'
 API_TOKEN   = process.env.HUBOT_IDOBATA_API_TOKEN
@@ -63,7 +65,7 @@ class Idobata extends Hubot.Adapter
 
         return if "bot:#{bot.id}" == identifier
 
-        textMessage = new Hubot.TextMessage(user, message.body_plain, message.id)
+        textMessage = new Hubot.TextMessage(user, striptags(message.body), message.id)
         textMessage.data = message
 
         @receive textMessage
