@@ -80,7 +80,7 @@ describe 'hubot-idobata', ->
             request = querystring.parse(body)
 
             assert request['message[room_id]'] == '143'
-            assert request['message[source]']  == 'hi'
+            assert request['message[source]']  == 'hi ≠ hoi'
 
             do done
 
@@ -114,7 +114,7 @@ describe 'hubot-idobata', ->
             request = querystring.parse(body)
 
             assert request['message[room_id]'] == '143'
-            assert request['message[source]']  == '@homuhomu hi'
+            assert request['message[source]']  == '@homuhomu hi ≠ hoi'
 
             do done
 
