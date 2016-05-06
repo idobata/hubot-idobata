@@ -31,7 +31,7 @@
     "sinon": "~1.17.2",
     "nock": "~2.17.0",
     "hubot": ">= 2.7",
-    "power-assert": "~1.1.0",
+    "power-assert": "~1.4.0",
     "espower-coffee": "~1.0.0"
   },
   "directories": {
