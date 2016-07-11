@@ -1,6 +1,6 @@
 # hubot-idobata
 
-[![Build Status](https://travis-ci.org/idobata/hubot-idobata.png)](https://travis-ci.org/idobata/hubot-idobata)
+[![Build Status](https://travis-ci.org/idobata/hubot-idobata.svg)](https://travis-ci.org/idobata/hubot-idobata)
 
 Idobata adapter for GitHub's Hubot
 
