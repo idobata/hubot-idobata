@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/idobata/hubot-idobata",
   "dependencies": {
-    "request": "~2.75.0",
+    "request": "~2.76.0",
     "pusher-client": "~1.1.0"
   },
   "devDependencies": {
