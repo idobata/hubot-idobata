@@ -148,7 +148,7 @@ describe 'hubot-idobata', ->
 
         triggerEvent stream, 'message:created',
           message:
-            sender_id: 43
+            sender_id:   43
             sender_type: 'User'
             sender_name: 'hi'
 
@@ -156,7 +156,7 @@ describe 'hubot-idobata', ->
 
         triggerEvent stream, 'message:created',
           message:
-            sender_id: 43
+            sender_id:   43
             sender_type: 'User'
             sender_name: 'hihi'
 
