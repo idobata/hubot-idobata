@@ -13,6 +13,14 @@ MessageData = require('./mock/message')
 
 Adapter = require('../')
 
+triggerEvent = (stream, type, data) ->
+  stream.append """
+    event: event
+    data: #{JSON.stringify(type: type, data: data)}
+
+
+  """
+
 describe 'hubot-idobata', ->
   robot   = null
   adapter = null
@@ -39,10 +47,7 @@ describe 'hubot-idobata', ->
 
     """
 
-    nock('https://idobata.io')
-      .get('/api/stream')
-      .query(access_token: 'MY API TOKEN')
-      .reply 200, -> stream
+    nock('https://idobata.io').get('/api/stream').query(access_token: 'MY API TOKEN').reply 200, -> stream
 
     robot   = new MockRobot
     adapter = robot.adapter
@@ -83,12 +88,7 @@ describe 'hubot-idobata', ->
 
             do done
 
-        stream.append """
-          event: event
-          data: #{JSON.stringify(type: 'message:created', data: MessageData)}
-
-
-        """
+        triggerEvent stream, 'message:created', MessageData
 
       it 'should respond with Robot#messageRoom', (done) ->
         nock('https://idobata.io')
@@ -122,12 +122,7 @@ describe 'hubot-idobata', ->
 
             do done
 
-        stream.append """
-          event: event
-          data: #{JSON.stringify(type: 'message:created', data: MessageData)}
-
-
-        """
+        triggerEvent stream, 'message:created', MessageData
 
     describe '#sendHTML', ->
       beforeEach ->
@@ -149,31 +144,24 @@ describe 'hubot-idobata', ->
 
             do done
 
-        stream.append """
-          event: event
-          data: #{JSON.stringify(type: 'message:created', data: MessageData)}
-
-
-        """
+        triggerEvent stream, 'message:created', MessageData
 
     describe 'User data', ->
       it 'should updated in automatically', ->
         assert robot.brain.userForName('hi') == null
 
-        stream.append """
-          event: event
-          data: #{JSON.stringify(type: 'message:created', data: {message: {sender_id: 43, sender_type: 'User', sender_name: 'hi'}})}
-
-
-        """
+        triggerEvent stream, 'message:created',
+          message:
+            sender_id: 43
+            sender_type: 'User'
+            sender_name: 'hi'
 
         assert robot.brain.userForId('user:43').name == 'hi'
 
-        stream.append """
-          event: event
-          data: #{JSON.stringify(type: 'message:created', data: {message: {sender_id: 43, sender_type: 'User', sender_name: 'hihi'}})}
-
-
-        """
+        triggerEvent stream, 'message:created',
+          message:
+            sender_id: 43
+            sender_type: 'User'
+            sender_name: 'hihi'
 
         assert robot.brain.userForId('user:43').name == 'hihi'
