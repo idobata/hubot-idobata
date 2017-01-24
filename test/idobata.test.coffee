@@ -3,14 +3,12 @@ process.env.HUBOT_IDOBATA_API_TOKEN = 'MY API TOKEN'
 
 querystring = require('querystring')
 
-assert = require('power-assert')
-sinon  = require('sinon')
-nock   = require('nock')
-
-Pusher = require('pusher-client')
+assert  = require('power-assert')
+sinon   = require('sinon')
+nock    = require('nock')
+streams = require('memory-streams')
 
 MockRobot   = require('./mock/robot')
-MockPusher  = require('./mock/pusher')
 MessageData = require('./mock/message')
 
 Adapter = require('../')
@@ -19,31 +17,38 @@ describe 'hubot-idobata', ->
   robot   = null
   adapter = null
   pusher  = null
+  stream  = null
 
   beforeEach ->
-    nock('https://idobata.io')
-      .matchHeader('X-API-Token', 'MY API TOKEN')
-      .get('/api/seed')
-      .reply 200,
-        version: 1
-        records:
-          bot:
-            id:           99
-            name:         'Hubot'
-            icon_url:     'http://www.gravatar.com/avatar/9fef32520aa08836d774873cb8b7df28.png'
-            token:        'API TOKEN'
-            status:       'online'
-            channel_name: 'presence-guy_99'
+    seed =
+      version: 1
+      last_event_id: 42
+      records:
+        bot:
+          id:           99
+          name:         'Hubot'
+          icon_url:     'http://www.gravatar.com/avatar/9fef32520aa08836d774873cb8b7df28.png'
+          token:        'API TOKEN'
+          status:       'online'
+          channel_name: 'presence-guy_99'
 
-    sinon.stub Pusher.prototype, 'initialize', ->
-      pusher = new MockPusher(arguments...)
+    stream = new streams.ReadableStream """
+      event: seed
+      data: #{JSON.stringify(seed)}
+
+
+    """
+
+    nock('https://idobata.io')
+      .get('/api/stream')
+      .query(access_token: 'MY API TOKEN')
+      .reply 200, -> stream
 
     robot   = new MockRobot
     adapter = robot.adapter
 
   afterEach ->
     do nock.cleanAll
-    do Pusher::initialize.restore
 
   describe '#run', (done) ->
     # TODO Test error thrown
@@ -53,12 +58,6 @@ describe 'hubot-idobata', ->
 
     it 'should receive connected event', (done) ->
       adapter.on 'connected', done
-
-    it 'should subscribe own channel', (done) ->
-      adapter.on 'connected', ->
-        assert pusher.channels['presence-guy_99'].length == 1
-
-        do done
 
   context 'After connected', ->
     beforeEach (done) ->
@@ -84,7 +83,12 @@ describe 'hubot-idobata', ->
 
             do done
 
-        pusher.channels['presence-guy_99'][0].trigger 'message:created', MessageData
+        stream.append """
+          event: event
+          data: #{JSON.stringify(type: 'message:created', data: MessageData)}
+
+
+        """
 
       it 'should respond with Robot#messageRoom', (done) ->
         nock('https://idobata.io')
@@ -118,7 +122,12 @@ describe 'hubot-idobata', ->
 
             do done
 
-        pusher.channels['presence-guy_99'][0].trigger 'message:created', MessageData
+        stream.append """
+          event: event
+          data: #{JSON.stringify(type: 'message:created', data: MessageData)}
+
+
+        """
 
     describe '#sendHTML', ->
       beforeEach ->
@@ -140,33 +149,31 @@ describe 'hubot-idobata', ->
 
             do done
 
-        pusher.channels['presence-guy_99'][0].trigger 'message:created', MessageData
+        stream.append """
+          event: event
+          data: #{JSON.stringify(type: 'message:created', data: MessageData)}
+
+
+        """
 
     describe 'User data', ->
       it 'should updated in automatically', ->
         assert robot.brain.userForName('hi') == null
 
-        pusher.channels['presence-guy_99'][0].trigger 'message:created',
-          message:
-            sender_id:   43
-            sender_type: 'User'
-            sender_name: 'hi'
+        stream.append """
+          event: event
+          data: #{JSON.stringify(type: 'message:created', data: {message: {sender_id: 43, sender_type: 'User', sender_name: 'hi'}})}
+
+
+        """
 
         assert robot.brain.userForId('user:43').name == 'hi'
 
-        pusher.channels['presence-guy_99'][0].trigger 'message:created',
-          message:
-            sender_id:   43
-            sender_type: 'User'
-            sender_name: 'hihi' # name is updated
+        stream.append """
+          event: event
+          data: #{JSON.stringify(type: 'message:created', data: {message: {sender_id: 43, sender_type: 'User', sender_name: 'hihi'}})}
+
+
+        """
 
         assert robot.brain.userForId('user:43').name == 'hihi'
-
-    context 'when connection is disconnected', ->
-      beforeEach ->
-        adapter._reconnectInterval = 10
-
-        do pusher.disconnect
-
-      it 'should reconnect automatically', (done) ->
-        pusher.connection.bind 'connected', done

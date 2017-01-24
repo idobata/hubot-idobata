@@ -33,7 +33,7 @@ class Idobata extends Adapter
       @robot.logger.info 'hubot-idobata: Established streaming connection'
 
     stream.on 'seed', (e) =>
-      @robot.logger.debug 'hubot-idobata: Received seed'
+      @robot.logger.info 'hubot-idobata: Received seed'
 
       seed = JSON.parse(e.data)
       _bot = seed.records.bot
