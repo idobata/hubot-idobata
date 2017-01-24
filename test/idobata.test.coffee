@@ -77,9 +77,8 @@ describe 'hubot-idobata', ->
           msg.send msg.match[1]
 
       it 'should send message', (done) ->
-        nock('https://idobata.io')
-          .matchHeader('X-API-Token', 'MY API TOKEN')
-          .post('/api/messages')
+        nock('https://idobata.io').post('/api/messages')
+          .matchHeader('Authorization', 'Bearer MY API TOKEN')
           .reply 201, (uri, body) ->
             request = querystring.parse(body)
 
@@ -91,9 +90,8 @@ describe 'hubot-idobata', ->
         triggerEvent stream, 'message:created', MessageData
 
       it 'should respond with Robot#messageRoom', (done) ->
-        nock('https://idobata.io')
-          .matchHeader('X-API-Token', 'MY API TOKEN')
-          .post('/api/messages')
+        nock('https://idobata.io').post('/api/messages')
+          .matchHeader('Authorization', 'Bearer MY API TOKEN')
           .reply 201, (uri, body) ->
             request = querystring.parse(body)
 
@@ -111,9 +109,8 @@ describe 'hubot-idobata', ->
           msg.reply msg.match[1]
 
       it 'should reply mesasge to sender', (done) ->
-        nock('https://idobata.io')
-          .matchHeader('X-API-Token', 'MY API TOKEN')
-          .post('/api/messages')
+        nock('https://idobata.io').post('/api/messages')
+          .matchHeader('Authorization', 'Bearer MY API TOKEN')
           .reply 201, (uri, body) ->
             request = querystring.parse(body)
 
@@ -132,9 +129,8 @@ describe 'hubot-idobata', ->
           adapter.sendHTML envelope, '<h1>hi</h1>'
 
       it 'should send message with HTML format', (done) ->
-        nock('https://idobata.io')
-          .matchHeader('X-API-Token', 'MY API TOKEN')
-          .post('/api/messages')
+        nock('https://idobata.io').post('/api/messages')
+          .matchHeader('Authorization', 'Bearer MY API TOKEN')
           .reply 201, (uri, body) ->
             request = querystring.parse(body)
 

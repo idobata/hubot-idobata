@@ -106,8 +106,8 @@ class Idobata extends Adapter
     Request.post(options)
 
   _http_headers:
-    'X-API-Token': API_TOKEN
-    'User-Agent':  "hubot-idobata / v#{Package.version}"
+    'Authorization': "Bearer #{API_TOKEN}"
+    'User-Agent':    "hubot-idobata / v#{Package.version}"
 
 exports.use = (robot) ->
   new Idobata(robot)
