@@ -1,5 +1,7 @@
 # hubot-idobata
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/idobata/hubot-idobata.svg)](https://greenkeeper.io/)
+
 [![Build Status](https://travis-ci.org/idobata/hubot-idobata.svg)](https://travis-ci.org/idobata/hubot-idobata)
 
 Idobata adapter for GitHub's Hubot
