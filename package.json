@@ -21,7 +21,7 @@
   },
   "homepage": "https://github.com/idobata/hubot-idobata",
   "dependencies": {
-    "eventsource": "badunk/eventsource-node#bugfix/reconnect-multiply-tests",
+    "eventsource": "^1.0.2",
     "parent-require": "^1.0.0",
     "request": "~2.81.0"
   },
