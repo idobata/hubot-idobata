@@ -691,9 +691,9 @@ event-emitter@~0.3.5:
     d "1"
     es5-ext "~0.10.14"
 
-eventsource@badunk/eventsource-node#bugfix/reconnect-multiply-tests:
-  version "0.2.1"
-  resolved "https://codeload.github.com/badunk/eventsource-node/tar.gz/9ed0e750c769c55fe371789d3665e49e61229ad3"
+eventsource@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/eventsource/-/eventsource-1.0.2.tgz#2f35ad0f52e40527b787251aab25956eba6e49c8"
   dependencies:
     original "^1.0.0"
 
