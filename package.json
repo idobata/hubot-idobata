@@ -26,7 +26,7 @@
     "request": "~2.81.0"
   },
   "devDependencies": {
-    "chai": "~3.5.0",
+    "chai": "~4.0.1",
     "coffee-script": "~1.12.5",
     "espower-coffee": "~1.1.0",
     "hubot": ">= 2.7",
