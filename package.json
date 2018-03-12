@@ -23,7 +23,7 @@
   "dependencies": {
     "eventsource": "badunk/eventsource-node#bugfix/reconnect-multiply-tests",
     "parent-require": "^1.0.0",
-    "request": "~2.81.0"
+    "request": "~2.85.0"
   },
   "devDependencies": {
     "chai": "~4.0.1",
