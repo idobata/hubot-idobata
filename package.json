@@ -31,7 +31,7 @@
     "espower-coffee": "~1.1.0",
     "hubot": ">= 2.7",
     "memory-streams": "^0.1.0",
-    "mocha": "~3.4.1",
+    "mocha": "~6.2.2",
     "nock": "~9.0.6",
     "power-assert": "~1.4.2",
     "sinon": "~2.3.0"
